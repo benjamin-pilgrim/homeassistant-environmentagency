@@ -3,13 +3,13 @@
 import asyncio
 from typing import Any, override
 
-from aioeafm import get_station
 import aiohttp
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
+from .api import get_station
 from .const import CONF_STATION_REFERENCE, DOMAIN
 
 

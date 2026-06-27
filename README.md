@@ -38,6 +38,9 @@ The integration validates the reference using:
 https://environment.data.gov.uk/flood-monitoring/id/stations/{station_reference}
 ```
 
+The integration uses a small local client for the Environment Agency API and
+does not depend on `aioeafm`.
+
 ## Sensors
 
 The integration creates one sensor per station measure that has a latest reading.

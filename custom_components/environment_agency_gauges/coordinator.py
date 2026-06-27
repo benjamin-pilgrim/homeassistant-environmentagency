@@ -5,14 +5,13 @@ from datetime import timedelta
 import logging
 from typing import Any, override
 
-from aioeafm import get_station
-
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
+from .api import get_station
 from .const import CONF_STATION_REFERENCE
 
 PLATFORMS = [Platform.SENSOR]

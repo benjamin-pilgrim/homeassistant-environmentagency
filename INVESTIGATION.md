@@ -52,7 +52,8 @@ investigation.
 
 The minimal product fix belongs in Home Assistant core's `eafm` config flow. `aioeafm` already supports passing `status=None` to omit the status filter.
 
-A small `aioeafm` improvement would still be reasonable: document `status=None`, or add an explicit convenience for rainfall stations. But Home Assistant does not need a library release to prove the behavior.
+The standalone HACS integration uses a small local API client instead of
+depending on `aioeafm`.
 
 ## Follow-up for a core-quality patch
 
