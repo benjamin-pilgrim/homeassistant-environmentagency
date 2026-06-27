@@ -69,10 +69,6 @@ class EnvironmentAgencyGaugesConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             errors=errors,
             data_schema=vol.Schema(
-                {
-                    vol.Required(CONF_STATION_REFERENCE): vol.All(
-                        str, str.strip, vol.Length(min=1)
-                    )
-                }
+                {vol.Required(CONF_STATION_REFERENCE): str}
             ),
         )
