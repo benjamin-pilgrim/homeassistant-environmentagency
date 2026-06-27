@@ -1,12 +1,11 @@
 """Config flow for Environment Agency gauges."""
 
-import asyncio
-from typing import Any, override
+from typing import Any
 
 import aiohttp
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import ConfigFlow
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import get_station
@@ -24,8 +23,7 @@ async def _validate_station(
     session: aiohttp.ClientSession, station_reference: str
 ) -> dict[str, Any]:
     """Fetch a station by reference and return its data."""
-    async with asyncio.timeout(30):
-        return await get_station(session, station_reference)
+    return await get_station(session, station_reference)
 
 
 class EnvironmentAgencyGaugesConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -33,10 +31,9 @@ class EnvironmentAgencyGaugesConfigFlow(ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
-    @override
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    ):
         """Handle a flow start."""
         errors: dict[str, str] = {}
 

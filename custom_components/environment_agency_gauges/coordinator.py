@@ -1,9 +1,8 @@
 """Environment Agency gauges coordinator."""
 
-import asyncio
 from datetime import timedelta
 import logging
-from typing import Any, override
+from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -18,8 +17,7 @@ PLATFORMS = [Platform.SENSOR]
 
 _LOGGER = logging.getLogger(__name__)
 
-type EafmConfigEntry = ConfigEntry[EafmCoordinator]
-
+EafmConfigEntry = ConfigEntry
 
 def _get_measures(station_data: dict[str, Any]) -> list[dict[str, Any]]:
     """Force measure key to always be a list."""
@@ -45,12 +43,10 @@ class EafmCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
             update_interval=timedelta(seconds=15 * 60),
         )
 
-    @override
     async def _async_update_data(self) -> dict[str, dict[str, Any]]:
         """Fetch the latest data from the source."""
         # DataUpdateCoordinator will handle aiohttp ClientErrors and timeouts
-        async with asyncio.timeout(30):
-            data = await get_station(self._session, self._station_key)
+        data = await get_station(self._session, self._station_key)
 
         measures = _get_measures(data)
         # Turn data.measures into a dict rather than a list so easier for entities to

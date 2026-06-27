@@ -1,13 +1,18 @@
 """Support for Environment Agency gauge sensors."""
 
-from typing import Any, override
+from typing import Any
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import UnitOfLength, UnitOfPrecipitation
+from homeassistant.const import UnitOfLength
+
+try:
+    from homeassistant.const import UnitOfPrecipitation
+except ImportError:
+    UnitOfPrecipitation = None
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -17,7 +22,9 @@ from .const import DOMAIN
 from .coordinator import EafmConfigEntry, EafmCoordinator
 
 UNIT_MAPPING = {
-    "http://qudt.org/1.1/vocab/unit#Millimeter": UnitOfPrecipitation.MILLIMETERS,
+    "http://qudt.org/1.1/vocab/unit#Millimeter": (
+        UnitOfPrecipitation.MILLIMETERS if UnitOfPrecipitation is not None else "mm"
+    ),
     "http://qudt.org/1.1/vocab/unit#Meter": UnitOfLength.METERS,
 }
 
@@ -104,7 +111,6 @@ class Measurement(CoordinatorEntity, SensorEntity):
         return self.measure["parameterName"]
 
     @property
-    @override
     def device_class(self):
         """Return the sensor device class."""
         if self.measure.get("parameter") == "rainfall":
@@ -112,7 +118,6 @@ class Measurement(CoordinatorEntity, SensorEntity):
         return None
 
     @property
-    @override
     def device_info(self) -> DeviceInfo:
         """Return the device info."""
         return DeviceInfo(
@@ -124,7 +129,6 @@ class Measurement(CoordinatorEntity, SensorEntity):
         )
 
     @property
-    @override
     def available(self) -> bool:
         """Return True if entity is available."""
         if not self.coordinator.last_update_success:
@@ -143,7 +147,6 @@ class Measurement(CoordinatorEntity, SensorEntity):
         return True
 
     @property
-    @override
     def native_unit_of_measurement(self):
         """Return units for the sensor."""
         measure = self.measure
@@ -152,13 +155,11 @@ class Measurement(CoordinatorEntity, SensorEntity):
         return UNIT_MAPPING.get(measure["unit"], measure["unitName"])
 
     @property
-    @override
     def native_value(self):
         """Return the current sensor value."""
         return self.measure["latestReading"]["value"]
 
     @property
-    @override
     def extra_state_attributes(self):
         """Return extra state attributes."""
         latest_reading = self.measure["latestReading"]
