@@ -1,0 +1,21 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "station_not_found": "Station reference was not found.",
+      "timeout": "Timed out while connecting to the Environment Agency API."
+    },
+    "step": {
+      "user": {
+        "data": {
+          "station_reference": "Station reference"
+        },
+        "description": "Enter an Environment Agency station reference, for example E37151.",
+        "title": "Track an Environment Agency gauge"
+      }
+    }
+  }
+}
