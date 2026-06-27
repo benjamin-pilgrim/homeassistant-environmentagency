@@ -70,6 +70,3 @@ Each sensor exposes these attributes:
 - The config flow stores only the Environment Agency `stationReference`.
 - Sensors are created only for measures that include `latestReading`.
 - Data is polled every 15 minutes.
-
-See `INVESTIGATION.md` for the original analysis of why Home Assistant's built-in
-`eafm` integration misses many rainfall gauges.
